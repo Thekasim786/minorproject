@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const http = require('http');
-const WebSocket = require('ws');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
@@ -10,13 +9,8 @@ var cors = require('cors')
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
 
 const PORT = process.env.PORT || 5000;
-const CHUNK_SIZE = 64 * 1024; // 64KB
-const CHUNK_INTERVAL = 100; // ms
-
-
 
 var corsOptions = {
   origin: 'http://localhost:5173',
@@ -36,7 +30,7 @@ app.use(express.json());
 
 // Basic health check
 app.get('/', (req, res) => {
-  res.send('WebSocket Video Stream Server is running!');
+  res.send('Video Stream Server is running!');
 });
 
 // Get all videos
@@ -46,6 +40,75 @@ app.get('/api/videos', async (req, res) => {
     res.json(videos);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch videos' });
+  }
+});
+
+// IMPORTANT: Define specific routes before parameterized routes
+// HTTP stream endpoint (MUST COME BEFORE THE GENERIC VIDEO BY ID ROUTE)
+app.get('/api/stream/:id', async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) {
+      return res.status(404).json({ error: 'Video not found' });
+    }
+
+    const filePath = path.join(__dirname, 'video', video.filename);
+    
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      console.error(`File does not exist: ${filePath}`);
+      return res.status(404).json({ error: 'Video file not found' });
+    }
+
+    const stat = fs.statSync(filePath);
+    
+    // Handle range requests (important for seeking in video)
+    const range = req.headers.range;
+    if (range) {
+      const parts = range.replace(/bytes=/, '').split('-');
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : stat.size - 1;
+      const chunksize = (end - start) + 1;
+      
+      // Log streaming information for debugging
+      console.log(`Streaming ${video.filename} with range: ${start}-${end}/${stat.size}`);
+      
+      const fileStream = fs.createReadStream(filePath, { start, end });
+      res.writeHead(206, {
+        'Content-Range': `bytes ${start}-${end}/${stat.size}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunksize,
+        'Content-Type': 'video/mp4',
+      });
+      fileStream.pipe(res);
+    } else {
+      // No range requested, send the whole file
+      // Log streaming information for debugging
+      console.log(`Streaming entire file: ${video.filename}, size: ${stat.size}`);
+      
+      res.writeHead(200, {
+        'Content-Length': stat.size,
+        'Content-Type': 'video/mp4',
+        'Accept-Ranges': 'bytes'
+      });
+      fs.createReadStream(filePath).pipe(res);
+    }
+  } catch (err) {
+    console.error('Stream error:', err);
+    res.status(500).json({ error: 'Failed to stream video' });
+  }
+});
+
+// Get a single video by ID (this now comes AFTER the streaming route)
+app.get('/api/videos/:id', async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) {
+      return res.status(404).json({ error: 'Video not found' });
+    }
+    res.json(video);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch video' });
   }
 });
 
@@ -61,37 +124,6 @@ app.post('/api/videos', async (req, res) => {
     res.status(201).json(newVideo);
   } catch (err) {
     res.status(500).json({ error: 'Failed to save video' });
-  }
-});
-
-// WebSocket streaming
-wss.on('connection', async (ws, req) => {
-  const urlParams = new URLSearchParams(req.url.replace('/?', ''));
-  const videoId = urlParams.get('id');
-
-  try {
-    const video = await Video.findById(videoId);
-    if (!video) return ws.close();
-
-    const filePath = path.join(__dirname, 'video', video.filename);
-    const stream = fs.createReadStream(filePath, { highWaterMark: CHUNK_SIZE });
-
-    stream.on('data', (chunk) => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(chunk);
-      }
-      stream.pause();
-      setTimeout(() => stream.resume(), CHUNK_INTERVAL);
-    });
-
-    stream.on('end', () => ws.close());
-    stream.on('error', (err) => {
-      console.error('Stream error:', err);
-      ws.close();
-    });
-  } catch (err) {
-    console.error('WebSocket error:', err);
-    ws.close();
   }
 });
 

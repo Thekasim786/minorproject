@@ -12,15 +12,20 @@ import VideoCard from './VideoCard'; // Import VideoCard component
 const HomePage = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const res = await fetch('http://localhost:5000/api/videos');
+        if (!res.ok) {
+          throw new Error('Failed to fetch videos');
+        }
         const data = await res.json();
         setVideos(data);
       } catch (err) {
         console.error('Error fetching videos:', err);
+        setError(err.message || 'Failed to load videos');
       } finally {
         setLoading(false);
       }
@@ -28,6 +33,27 @@ const HomePage = () => {
 
     fetchVideos();
   }, []);
+
+  if (error) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          flexDirection: 'column',
+        }}
+      >
+        <Typography variant="h6" color="error" gutterBottom>
+          {error}
+        </Typography>
+        <Typography variant="body1">
+          Please try again later or contact support.
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -62,7 +88,7 @@ const HomePage = () => {
           >
             <CircularProgress />
           </Box>
-        ) : (
+        ) : videos.length > 0 ? (
           <Grid container spacing={3}>
             {videos.map((video) => (
               <Grid item key={video._id} xs={12} sm={6} md={4} lg={3}>
@@ -70,6 +96,17 @@ const HomePage = () => {
               </Grid>
             ))}
           </Grid>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '50vh',
+            }}
+          >
+            <Typography variant="h6">No videos available</Typography>
+          </Box>
         )}
       </Container>
     </Box>
