@@ -17,7 +17,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/homepage" element={<HomePage />} />
-        <Route path="/video" element={<VideoPlayerPage />} />
+        <Route path="/video/:id" element={<VideoPlayerPage />} />
       </Routes>
     </BrowserRouter>
   );
