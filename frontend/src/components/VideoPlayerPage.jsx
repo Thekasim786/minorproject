@@ -25,7 +25,7 @@ const VideoPlayerPage = () => {
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/videos/${id}`);
+        const res = await axios.get(`http://localhost:5500/api/videos/${id}`);
         setVideo(res.data);
       } catch (err) {
         console.error('Failed to fetch video:', err);
@@ -56,7 +56,7 @@ const VideoPlayerPage = () => {
   const retryVideoLoad = () => {
     if (videoRef.current) {
       const videoElement = videoRef.current;
-      videoElement.src = `http://localhost:5000/api/stream/${id}?t=${new Date().getTime()}`;
+      videoElement.src = `http://localhost:5500/api/stream/${id}?t=${new Date().getTime()}`;
       videoElement.load();
       setVideoError(false);
     }
@@ -123,7 +123,7 @@ const VideoPlayerPage = () => {
               onError={handleVideoError}
               onPlay={handleVideoPlay}
               style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-              src={`http://localhost:5000/api/stream/${id}`}
+              src={`http://localhost:5500/api/stream/${id}`}
               poster={video.thumbnail || null}
             />
           </Box>

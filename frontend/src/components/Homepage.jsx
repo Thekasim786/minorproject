@@ -17,7 +17,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/videos');
+        const res = await fetch('http://localhost:5500/api/videos');
         if (!res.ok) {
           throw new Error('Failed to fetch videos');
         }
