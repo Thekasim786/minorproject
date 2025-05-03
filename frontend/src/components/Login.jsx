@@ -1,139 +1,94 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  Paper,
-  Avatar,
-  useMediaQuery,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useTheme } from "@mui/material/styles";
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
+import { handleError, handleSuccess } from '../utils';
+import '../styling/loginsignup.css';
 
-const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+function Login() {
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const [loginInfo, setLoginInfo] = useState({
+        email: '',
+        password: ''
+    })
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError("");
-  };
+    const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { email, password } = formData;
-
-    if (!email || !password) {
-      setError("Please fill in all fields.");
-      return;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        console.log(name, value);
+        const copyLoginInfo = { ...loginInfo };
+        copyLoginInfo[name] = value;
+        setLoginInfo(copyLoginInfo);
     }
 
-    console.log("Login Data:", formData);
-  };
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const { email, password } = loginInfo;
+        if (!email || !password) {
+            return handleError('email and password are required')
+        }
+        try {
+            const url = `http://localhost:5500/auth/login`;
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginInfo)
+            });
+            const result = await response.json();
+            const { success, message, jwtToken, name, error } = result;
+            if (success) {
+                handleSuccess(message);
+                localStorage.setItem('token', jwtToken);
+                localStorage.setItem('loggedInUser', name);
+                setTimeout(() => {
+                    navigate('/homepage')
+                }, 1000)
+            } else if (error) {
+                const details = error?.details[0].message;
+                handleError(details);
+            } else if (!success) {
+                handleError(message);
+            }
+            console.log(result);
+        } catch (err) {
+            handleError(err);
+        }
+    }
 
-  return (
-    <Box
-      position="relative"
-      minHeight="100vh"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        backgroundImage:
-          'url("https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1350&q=80")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* 🌑 Dark overlay */}
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        width="100%"
-        height="100%"
-        bgcolor="rgba(0,0,0,0.5)"
-        zIndex={1}
-      />
+    return (
+        <div className='container'>
+            <h1>Login</h1>
+            <form onSubmit={handleLogin}>
+                <div>
+                    <label htmlFor='email'>Email</label>
+                    <input
+                        onChange={handleChange}
+                        type='email'
+                        name='email'
+                        placeholder='Enter your email...'
+                        value={loginInfo.email}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='password'>Password</label>
+                    <input
+                        onChange={handleChange}
+                        type='password'
+                        name='password'
+                        placeholder='Enter your password...'
+                        value={loginInfo.password}
+                    />
+                </div>
+                <button type='submit'>Login</button>
+                <span>Does't have an account ?
+                    <Link to="/signup">Signup</Link>
+                </span>
+            </form>
+            <ToastContainer />
+        </div>
+    )
+}
 
-      {/* 🎞️ Login box with animation */}
-      <Paper
-        elevation={6}
-        sx={{
-          p: 6,
-          width: isMobile ? "90%" : 700,
-          zIndex: 2,
-          backdropFilter: "blur(6px)",
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
-          borderRadius: 4,
-          animation: "fadeIn 1s ease-in-out",
-        }}
-      >
-        <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
-          <Avatar sx={{ bgcolor: "#1976d2", mb: 2, width: 70, height: 70 }}>
-            <LockOutlinedIcon fontSize="large" />
-          </Avatar>
-          <Typography variant="h4" component="h1">
-            Login
-          </Typography>
-        </Box>
-
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            variant="outlined"
-            type="email"
-            name="email"
-            fullWidth
-            margin="normal"
-            size="medium"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            type="password"
-            name="password"
-            fullWidth
-            margin="normal"
-            size="medium"
-            value={formData.password}
-            onChange={handleChange}
-          />
-
-          {error && (
-            <Typography variant="body2" color="error" align="center" mt={1}>
-              {error}
-            </Typography>
-          )}
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 4, py: 1.4, fontSize: "1rem", borderRadius: 2 }}
-          >
-            Login
-          </Button>
-        </form>
-      </Paper>
-
-      {/* 🎞️ Animation keyframe */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-          }
-        `}
-      </style>
-    </Box>
-  );
-};
-
-export default Login;
+export default Login

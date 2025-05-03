@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import VideoCard from './VideoCard'; // Import VideoCard component
+import NavbarLogout from './NavbarLogout';
 
 const HomePage = () => {
   const [videos, setVideos] = useState([]);
@@ -56,6 +57,8 @@ const HomePage = () => {
   }
 
   return (
+    <>
+    <NavbarLogout />
     <Box
       sx={{
         minHeight: '100vh',
@@ -110,6 +113,7 @@ const HomePage = () => {
         )}
       </Container>
     </Box>
+    </>
   );
 };
 

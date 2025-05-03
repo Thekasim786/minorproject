@@ -13,7 +13,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import { useEffect, useState } from 'react'
+import { handleError, handleSuccess } from '../utils';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -123,6 +124,22 @@ export default function NavbarLogout() {
       </MenuItem>
     </Menu>
   );
+  const [loggedInUser, setLoggedInUser] = useState('');
+  useEffect(() => {
+          setLoggedInUser(localStorage.getItem('loggedInUser'))
+      }, [])
+  
+
+  const handleLogout = (e) => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('loggedInUser');
+          handleSuccess('User Loggedout');
+          navigate('/login');
+          // setTimeout(() => {
+          //     console.log('Redirecting to login...');
+          //     navigate('/login');
+          // }, 1000)
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -132,13 +149,14 @@ export default function NavbarLogout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
-            video streaming
+            Kalyani
           </Typography>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: 4 }}>
             <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
             <Button color="inherit" onClick={() => navigate('/about')}>About</Button>
             <Button color="inherit" onClick={() => navigate('/contact')}>Contact</Button>
+            <button color="inherit" onClick={handleLogout}>Logout</button>
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />

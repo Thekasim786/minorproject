@@ -5,7 +5,10 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const Video = require('./models/Video');
-var cors = require('cors')
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const AuthRouter = require('./Routes/AuthRouter');
+require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
@@ -16,10 +19,13 @@ var corsOptions = {
   origin: 'http://localhost:5173',
   credentials: true,
 }
+app.use(express.json());
 app.use(cors(corsOptions))
 
+app.use('/auth', AuthRouter);
+
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGO_CONN, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('✅ MongoDB connected'))
