@@ -122,21 +122,7 @@ export default function NavbarLogout() {
         <p>Profile</p>
       </MenuItem>
     </Menu>
-  );
-  const [loggedInUser, setLoggedInUser] = useState('');
-  useEffect(() => {
-          setLoggedInUser(localStorage.getItem('loggedInUser'))
-      }, [])
-  
-
-  const handleLogout = (e) => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('loggedInUser');
-          handleSuccess('User Loggedout');
-          setTimeout(() => {
-            window.location.replace('/login'); // Hard reload + history reset
-          }, 1000);
-        };        
+  );      
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -153,7 +139,6 @@ export default function NavbarLogout() {
             <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
             <Button color="inherit" onClick={() => navigate('/about')}>About</Button>
             <Button color="inherit" onClick={() => navigate('/contact')}>Contact</Button>
-            <button color="inherit" onClick={handleLogout}>Logout</button>
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />
@@ -161,7 +146,7 @@ export default function NavbarLogout() {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Button variant="outlined" color="inherit" onClick={() => navigate('/login')}>Login</Button>
             <Button variant="outlined" color="inherit" onClick={() => navigate('/signup')}>Sign Up</Button>
-            <IconButton
+            {/* <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
@@ -171,7 +156,7 @@ export default function NavbarLogout() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
+            </IconButton> */}
           </Box>
 
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
