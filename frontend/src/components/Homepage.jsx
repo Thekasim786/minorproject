@@ -9,11 +9,15 @@ import {
 } from '@mui/material';
 import VideoCard from './VideoCard'; // Import VideoCard component
 import NavbarLogout from './NavbarLogout';
+import Navbar from './Navbar';
 
 const HomePage = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+
+  
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -34,6 +38,7 @@ const HomePage = () => {
 
     fetchVideos();
   }, []);
+  
 
   if (error) {
     return (
@@ -58,7 +63,7 @@ const HomePage = () => {
 
   return (
     <>
-    <NavbarLogout />
+    <Navbar />
     <Box
       sx={{
         minHeight: '100vh',

@@ -15,7 +15,6 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react'
 import { handleError, handleSuccess } from '../utils';
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -134,12 +133,10 @@ export default function NavbarLogout() {
           localStorage.removeItem('token');
           localStorage.removeItem('loggedInUser');
           handleSuccess('User Loggedout');
-          navigate('/login');
-          // setTimeout(() => {
-          //     console.log('Redirecting to login...');
-          //     navigate('/login');
-          // }, 1000)
-  };
+          setTimeout(() => {
+            window.location.replace('/login'); // Hard reload + history reset
+          }, 1000);
+        };        
 
   return (
     <Box sx={{ flexGrow: 1 }}>

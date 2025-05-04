@@ -11,6 +11,8 @@ import VideoPlayerPage from './components/VideoPlayerPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import RefrshHandler from './RefrshHandler';
+import './app.css'
+import Navbar from './components/Navbar';
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,6 +29,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/navbar" element={<Navbar />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="/homepage" element={<HomePage />} /> */}
