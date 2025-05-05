@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Video = require('./models/Video');
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGO_CONN, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(async () => {
@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
   const videos = [
     {
-      title: 'Sample Video 1',
+      title: 'Video 1',
       description: 'A demo streaming file.',
       filename: 'video1.mp4'
     },
@@ -28,6 +28,26 @@ mongoose.connect(process.env.MONGO_URI, {
       title: 'Video 4',
       description: 'Another streaming demo.',
       filename: 'video4.mp4'
+    },
+    {
+      title: 'Video 5',
+      description: 'Another streaming demo.',
+      filename: 'video5.mp4'
+    },
+    {
+      title: 'Video 6',
+      description: 'Another streaming demo.',
+      filename: 'video6.mp4'
+    },
+    {
+      title: 'Video 7',
+      description: 'Another streaming demo.',
+      filename: 'video7.mp4'
+    },
+    {
+      title: 'Video 8',
+      description: 'Another streaming demo.',
+      filename: 'video8.mp4'
     }
   ];
 
