@@ -79,7 +79,7 @@ export default function Navbar() {
     localStorage.removeItem('token');
     localStorage.removeItem('loggedInUser');
     handleSuccess('User Logged out');
-    setTimeout(() => window.location.replace('/login'), 1000);
+    setTimeout(() => window.location.replace('/'), 1000);
   };
 
   const handleProfileMenuOpen = (e) => setAnchorEl(e.currentTarget);
@@ -113,7 +113,7 @@ export default function Navbar() {
               component="div"
               sx={{ color: themeColors.text, display: { xs: 'none', sm: 'block' } }}
             >
-              BitByBit
+              <BitFLix></BitFLix>
             </Typography>
           </Box>
 

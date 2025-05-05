@@ -134,9 +134,9 @@ export default function NavbarLogout() {
         }}
       >
         <Toolbar>
-          <IconButton size="large" edge="start" sx={{ mr: 2, color: themeColors.text }}>
+          {/* <IconButton size="large" edge="start" sx={{ mr: 2, color: themeColors.text }}>
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
 
           <Typography
             variant="h6"
@@ -144,7 +144,7 @@ export default function NavbarLogout() {
             component="div"
             sx={{ color: themeColors.text, display: { xs: 'none', sm: 'block' } }}
           >
-            Kalyani
+            Bitflix
           </Typography>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: 4 }}>

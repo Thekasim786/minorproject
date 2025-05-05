@@ -138,7 +138,7 @@ export default function LandingPage() {
         }}
       >
         <Typography variant="body2">
-          © {new Date().getFullYear()} StreamNow Inc. All rights reserved.
+          © {new Date().getFullYear()} BitFlix. All rights reserved.
         </Typography>
       </Box>
     </>
