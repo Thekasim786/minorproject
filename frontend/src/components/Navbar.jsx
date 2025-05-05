@@ -1,23 +1,35 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import {
-  AppBar, Box, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu,
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  MenuItem,
+  Menu,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { handleError, handleSuccess } from '../utils';
 
+// Updated color palette
+const themeColors = {
+  primary: '#246956',  // darker version of #328e6e
+  hover: '#67ae6e',
+  inputBg: '#90c67c',
+  text: '#e1eebc',
+};
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': { backgroundColor: alpha(theme.palette.common.white, 0.25) },
+  backgroundColor: alpha(themeColors.inputBg, 0.3),
+  '&:hover': { backgroundColor: alpha(themeColors.inputBg, 0.5) },
   width: '100%',
   maxWidth: 500,
   marginLeft: 'auto',
@@ -32,10 +44,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: themeColors.text,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: themeColors.text,
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -85,11 +98,22 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: themeColors.primary,
+          boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
+        }}
+      >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
-              MUI
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ color: themeColors.text, display: { xs: 'none', sm: 'block' } }}
+            >
+              BitByBit
             </Typography>
           </Box>
 
@@ -109,11 +133,11 @@ export default function Navbar() {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton size="large" edge="end" onClick={handleProfileMenuOpen} color="inherit">
+            <IconButton size="large" onClick={handleProfileMenuOpen} sx={{ color: themeColors.text }}>
               <AccountCircle />
             </IconButton>
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <IconButton size="large" onClick={handleMobileMenuOpen} color="inherit">
+              <IconButton size="large" onClick={handleMobileMenuOpen} sx={{ color: themeColors.text }}>
                 <MoreIcon />
               </IconButton>
             </Box>
@@ -132,7 +156,7 @@ export default function Navbar() {
         onClose={handleMobileMenuClose}
       >
         <MenuItem onClick={handleProfileMenuOpen}>
-          <IconButton size="large" color="inherit">
+          <IconButton size="large" sx={{ color: themeColors.primary }}>
             <AccountCircle />
           </IconButton>
           <p>Profile</p>

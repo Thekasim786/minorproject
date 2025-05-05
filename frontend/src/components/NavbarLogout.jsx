@@ -1,26 +1,35 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  MenuItem,
+  Menu,
+  Button,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react'
-import { handleError, handleSuccess } from '../utils';
+import { useState } from 'react';
+
+// Theme colors
+const themeColors = {
+  primary: '#246956',
+  hover: '#67ae6e',
+  text: '#e1eebc',
+};
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha('#ffffff', 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha('#ffffff', 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -42,7 +51,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: themeColors.text,
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -62,22 +71,13 @@ export default function NavbarLogout() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
+  const handleProfileMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleMobileMenuClose = () => setMobileMoreAnchorEl(null);
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  const handleMobileMenuOpen = (event) => setMobileMoreAnchorEl(event.currentTarget);
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -116,47 +116,74 @@ export default function NavbarLogout() {
         <p>Home</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton size="large" color="inherit">
+        <IconButton size="large" sx={{ color: themeColors.primary }}>
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
     </Menu>
-  );      
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: themeColors.primary,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+        }}
+      >
         <Toolbar>
-          <IconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }}>
+          <IconButton size="large" edge="start" sx={{ mr: 2, color: themeColors.text }}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
+
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ color: themeColors.text, display: { xs: 'none', sm: 'block' } }}
+          >
             Kalyani
           </Typography>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: 4 }}>
-            <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
-            <Button color="inherit" onClick={() => navigate('/about')}>About</Button>
-            <Button color="inherit" onClick={() => navigate('/contact')}>Contact</Button>
+            <Button sx={{ color: themeColors.text }} onClick={() => navigate('/')}>Home</Button>
+            <Button sx={{ color: themeColors.text }} onClick={() => navigate('/about')}>About</Button>
+            <Button sx={{ color: themeColors.text }} onClick={() => navigate('/contact')}>Contact</Button>
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Button variant="outlined" color="inherit" onClick={() => navigate('/login')}>Login</Button>
-            <Button variant="outlined" color="inherit" onClick={() => navigate('/signup')}>Sign Up</Button>
-            {/* <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+            <Button
+              variant="outlined"
+              sx={{
+                color: themeColors.text,
+                borderColor: themeColors.text,
+                '&:hover': {
+                  borderColor: themeColors.hover,
+                  color: themeColors.hover,
+                },
+              }}
+              onClick={() => navigate('/login')}
             >
-              <AccountCircle />
-            </IconButton> */}
+              Login
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                color: themeColors.text,
+                borderColor: themeColors.text,
+                '&:hover': {
+                  borderColor: themeColors.hover,
+                  color: themeColors.hover,
+                },
+              }}
+              onClick={() => navigate('/signup')}
+            >
+              Sign Up
+            </Button>
           </Box>
 
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -166,7 +193,7 @@ export default function NavbarLogout() {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color="inherit"
+              sx={{ color: themeColors.text }}
             >
               <MoreIcon />
             </IconButton>

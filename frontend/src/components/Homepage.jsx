@@ -6,9 +6,9 @@ import {
   Grid,
   CircularProgress,
 } from '@mui/material';
-import VideoCard from './VideoCard'; // Import VideoCard component
+import VideoCard from './VideoCard';
 import Navbar from './Navbar';
-import { useLocation } from 'react-router-dom'; // Import useLocation to get query params
+import { useLocation } from 'react-router-dom';
 
 const HomePage = () => {
   const [videos, setVideos] = useState([]);
@@ -16,21 +16,18 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Extract search query from URL
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const searchQuery = searchParams.get('search')?.toLowerCase() || ''; // Default to empty string if no query
+  const searchQuery = searchParams.get('search')?.toLowerCase() || '';
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const res = await fetch('http://localhost:5500/api/videos');
-        if (!res.ok) {
-          throw new Error('Failed to fetch videos');
-        }
+        if (!res.ok) throw new Error('Failed to fetch videos');
         const data = await res.json();
         setVideos(data);
-        filterVideos(data, searchQuery); // Filter videos based on search query
+        filterVideos(data, searchQuery);
       } catch (err) {
         console.error('Error fetching videos:', err);
         setError(err.message || 'Failed to load videos');
@@ -40,18 +37,18 @@ const HomePage = () => {
     };
 
     fetchVideos();
-  }, [searchQuery]); // Fetch and filter videos whenever searchQuery changes
+  }, [searchQuery]);
 
   const filterVideos = (videos, query) => {
     if (query) {
       const filtered = videos.filter(
         (video) =>
-          video.title.toLowerCase().includes(query) || // Match by title
-          video.description.toLowerCase().includes(query) // Match by description
+          video.title.toLowerCase().includes(query) ||
+          video.description.toLowerCase().includes(query)
       );
       setFilteredVideos(filtered);
     } else {
-      setFilteredVideos(videos); // Show all videos if no query
+      setFilteredVideos(videos);
     }
   };
 
@@ -64,12 +61,13 @@ const HomePage = () => {
           alignItems: 'center',
           height: '50vh',
           flexDirection: 'column',
+          backgroundColor: '#328e6e',
         }}
       >
         <Typography variant="h6" color="error" gutterBottom>
           {error}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" sx={{ color: '#e1eebc' }}>
           Please try again later or contact support.
         </Typography>
       </Box>
@@ -82,7 +80,7 @@ const HomePage = () => {
       <Box
         sx={{
           minHeight: '100vh',
-          backgroundColor: '#f9f9f9',
+          background: 'linear-gradient(to bottom, #328e6e, #e1eebc)',
           pt: 4,
           pb: 6,
         }}
@@ -94,7 +92,8 @@ const HomePage = () => {
             sx={{
               mb: 4,
               fontWeight: 'bold',
-              color: '#212121',
+              color: '#e1eebc',
+              textAlign: 'center',
             }}
           >
             Recommended Videos
@@ -109,12 +108,12 @@ const HomePage = () => {
                 height: '50vh',
               }}
             >
-              <CircularProgress />
+              <CircularProgress sx={{ color: '#67ae6e' }} />
             </Box>
           ) : filteredVideos.length > 0 ? (
-            <Grid container spacing={3}>
+            <Grid container spacing={4}>
               {filteredVideos.map((video) => (
-                <Grid item key={video._id} xs={12} sm={6} md={4} lg={3}>
+                <Grid item key={video._id} xs={12} sm={6} md={6} lg={4}>
                   <VideoCard video={video} />
                 </Grid>
               ))}
@@ -128,7 +127,9 @@ const HomePage = () => {
                 height: '50vh',
               }}
             >
-              <Typography variant="h6">No videos available</Typography>
+              <Typography variant="h6" sx={{ color: '#90c67c' }}>
+                No videos available
+              </Typography>
             </Box>
           )}
         </Container>

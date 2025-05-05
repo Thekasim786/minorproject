@@ -3,7 +3,6 @@ import NavbarLogout from './NavbarLogout';
 import {
   Box,
   Typography,
-  Button,
   Grid,
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import {
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DevicesIcon from '@mui/icons-material/Devices';
+import SyncIcon from '@mui/icons-material/Sync';
 
 export default function LandingPage() {
   return (
@@ -40,26 +40,23 @@ export default function LandingPage() {
         <Typography variant="h6" sx={{ mb: 3, maxWidth: '700px' }}>
           Dive into a universe of movies, shows, and originals — all in stunning HD and on any device.
         </Typography>
-        <Button variant="contained" color="secondary" size="large">
-          Start Watching
-        </Button>
       </Box>
 
       {/* Features Section */}
       <Container sx={{ py: 8 }}>
-        <Typography variant="h4" textAlign="center" gutterBottom>
+        <Typography variant="h4" textAlign="center" gutterBottom sx={{ color: '#328e6e' }}>
           Why Choose Us?
         </Typography>
         <Typography variant="body1" textAlign="center" mb={5} color="text.secondary">
           The ultimate entertainment experience at your fingertips.
         </Typography>
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card elevation={3} sx={{ textAlign: 'center', py: 4 }}>
-              <OndemandVideoIcon color="primary" sx={{ fontSize: 50, mb: 2 }} />
+        <Grid container spacing={4} justifyContent="center" sx={{ mb: 6 }}>
+          <Grid item xs={12} sm={6} md={6}>
+            <Card elevation={3} sx={{ textAlign: 'center', py: 4, backgroundColor: '#e1eebc' }}>
+              <OndemandVideoIcon sx={{ color: '#328e6e', fontSize: 50, mb: 2 }} />
               <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ color: '#328e6e' }}>
                   HD Streaming
                 </Typography>
                 <Typography variant="body2">
@@ -68,11 +65,12 @@ export default function LandingPage() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card elevation={3} sx={{ textAlign: 'center', py: 4 }}>
-              <FavoriteIcon color="primary" sx={{ fontSize: 50, mb: 2 }} />
+
+          <Grid item xs={12} sm={6} md={6}>
+            <Card elevation={3} sx={{ textAlign: 'center', py: 4, backgroundColor: '#e1eebc' }}>
+              <FavoriteIcon sx={{ color: '#328e6e', fontSize: 50, mb: 2 }} />
               <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ color: '#328e6e' }}>
                   Personalized Picks
                 </Typography>
                 <Typography variant="body2">
@@ -81,15 +79,30 @@ export default function LandingPage() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card elevation={3} sx={{ textAlign: 'center', py: 4 }}>
-              <DevicesIcon color="primary" sx={{ fontSize: 50, mb: 2 }} />
+
+          <Grid item xs={12} sm={6} md={6}>
+            <Card elevation={3} sx={{ textAlign: 'center', py: 4, backgroundColor: '#e1eebc' }}>
+              <DevicesIcon sx={{ color: '#328e6e', fontSize: 50, mb: 2 }} />
               <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ color: '#328e6e' }}>
                   Watch Anywhere
                 </Typography>
                 <Typography variant="body2">
                   Stream across mobile, TV, and web with seamless synchronization.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={6}>
+            <Card elevation={3} sx={{ textAlign: 'center', py: 4, backgroundColor: '#e1eebc' }}>
+              <SyncIcon sx={{ color: '#328e6e', fontSize: 50, mb: 2 }} />
+              <CardContent>
+                <Typography variant="h6" gutterBottom sx={{ color: '#328e6e' }}>
+                  Multi-device Sync
+                </Typography>
+                <Typography variant="body2">
+                  Sync your watchlist across all devices for a seamless experience.
                 </Typography>
               </CardContent>
             </Card>
@@ -100,7 +113,7 @@ export default function LandingPage() {
       {/* CTA */}
       <Box
         sx={{
-          backgroundColor: '#1976d2',
+          backgroundColor: '#328e6e',
           color: '#fff',
           textAlign: 'center',
           py: 6,
@@ -110,12 +123,9 @@ export default function LandingPage() {
         <Typography variant="h4" gutterBottom>
           Unlimited Movies, Shows & More
         </Typography>
-        <Typography variant="body1" mb={3}>
+        <Typography variant="body1">
           Watch anywhere. Cancel anytime. Sign up and get your first month free.
         </Typography>
-        <Button variant="contained" color="secondary" size="large">
-          Get Started
-        </Button>
       </Box>
 
       {/* Footer */}

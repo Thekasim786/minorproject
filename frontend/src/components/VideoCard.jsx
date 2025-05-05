@@ -1,4 +1,3 @@
-// VideoCard.jsx
 import React from 'react';
 import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -6,37 +5,39 @@ import { useNavigate } from 'react-router-dom';
 const VideoCard = ({ video }) => {
   const navigate = useNavigate();
 
-  // Function to generate a video thumbnail (could be updated to use actual thumbnails)
   const getThumbnail = () => {
-    return video.thumbnail || '/api/placeholder/320/180';
+    return video.thumbnail || '/api/placeholder/480/270';
   };
 
   return (
     <Card
       sx={{
+        width: '100%',
+        maxWidth: '100%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        transition: 'transform 0.2s',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        boxShadow: 6,
+        backgroundColor: '#ffffff',
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
         '&:hover': {
           transform: 'scale(1.03)',
           cursor: 'pointer',
-          boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
+          boxShadow: '0 12px 24px rgba(0,0,0,0.2)',
         },
-        borderRadius: '8px',
-        overflow: 'hidden',
       }}
       onClick={() => navigate(`/video/${video._id}`)}
     >
       <Box sx={{ position: 'relative' }}>
         <CardMedia
           component="img"
-          height="180"
+          height="220"
           image={getThumbnail()}
           alt={video.title}
           sx={{ objectFit: 'cover' }}
         />
-        {/* Optional play button overlay */}
         <Box
           sx={{
             position: 'absolute',
@@ -79,28 +80,30 @@ const VideoCard = ({ video }) => {
           </Box>
         </Box>
       </Box>
-      <CardContent sx={{ flexGrow: 1, pb: 2 }}>
-        <Typography 
-          variant="subtitle1" 
-          component="h3" 
+      <CardContent sx={{ flexGrow: 1, p: 2 }}>
+        <Typography
+          variant="subtitle1"
+          component="h3"
           noWrap
-          sx={{ 
-            fontWeight: '500',
+          sx={{
+            fontWeight: 600,
             color: '#212121',
+            fontSize: '1rem',
           }}
         >
           {video.title}
         </Typography>
         {video.description && (
-          <Typography 
-            variant="body2" 
-            color="text.secondary" 
+          <Typography
+            variant="body2"
+            color="text.secondary"
             sx={{
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               mt: 1,
+              fontSize: '0.9rem',
             }}
           >
             {video.description}

@@ -53,24 +53,27 @@ function Login() {
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '100vh',
-            backgroundColor: '#fff'
+            background: 'linear-gradient(to bottom right, #183B4E, #67ae6e)'
         }}>
             <div style={{
-                width: '300px',
+                width: '320px',
                 padding: '30px',
-                borderRadius: '8px',
-                boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
-                backgroundColor: '#fff',
-                textAlign: 'left'
+                borderRadius: '12px',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+                backgroundColor: '#fff1d5',
+                textAlign: 'left',
+                color: '#183B4E'
             }}>
                 <h1 style={{
-                    fontSize: '24px',
+                    fontSize: '26px',
                     marginBottom: '20px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    textAlign: 'center'
                 }}>Login</h1>
+
                 <form onSubmit={handleLogin}>
-                    <div style={{ marginBottom: '15px' }}>
-                        <label htmlFor='email' style={{ display: 'block', fontSize: '14px' }}>Email</label>
+                    <div style={{ marginBottom: '18px' }}>
+                        <label htmlFor='email' style={{ display: 'block', fontSize: '14px', marginBottom: '5px' }}>Email</label>
                         <input
                             onChange={handleChange}
                             type='email'
@@ -78,17 +81,20 @@ function Login() {
                             placeholder='Enter your email...'
                             value={loginInfo.email}
                             style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: 'none',
-                                borderBottom: '1px solid #000',
+                                width: 'calc(100% - 20px)',  // Ensure equal padding on both sides
+                                padding: '10px',
+                                border: '1px solid #90c67c',
+                                borderRadius: '4px',
                                 outline: 'none',
-                                fontSize: '14px'
+                                fontSize: '14px',
+                                backgroundColor: '#fff',
+                                marginLeft: '10px', // Ensures left margin
+                                marginRight: '10px', // Ensures right margin
                             }}
                         />
                     </div>
                     <div style={{ marginBottom: '20px' }}>
-                        <label htmlFor='password' style={{ display: 'block', fontSize: '14px' }}>Password</label>
+                        <label htmlFor='password' style={{ display: 'block', fontSize: '14px', marginBottom: '5px' }}>Password</label>
                         <input
                             onChange={handleChange}
                             type='password'
@@ -96,28 +102,40 @@ function Login() {
                             placeholder='Enter your password...'
                             value={loginInfo.password}
                             style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: 'none',
-                                borderBottom: '1px solid #000',
+                                width: 'calc(100% - 20px)',  // Ensures equal padding on both sides
+                                padding: '10px',
+                                border: '1px solid #90c67c',
+                                borderRadius: '4px',
                                 outline: 'none',
-                                fontSize: '14px'
+                                fontSize: '14px',
+                                backgroundColor: '#fff',
+                                marginLeft: '10px', // Ensures left margin
+                                marginRight: '10px', // Ensures right margin
                             }}
                         />
                     </div>
                     <button type='submit' style={{
                         width: '100%',
-                        padding: '10px',
-                        backgroundColor: '#800080',
+                        padding: '12px',
+                        backgroundColor: '#328e6e',
                         color: '#fff',
                         border: 'none',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         cursor: 'pointer',
-                        fontSize: '14px'
-                    }}>Login</button>
-                    <div style={{ marginTop: '15px', fontSize: '13px' }}>
-                        Doesn't have an account?{' '}
-                        <Link to="/signup" style={{ color: '#800080', textDecoration: 'none' }}>Signup</Link>
+                        fontSize: '15px',
+                        fontWeight: 'bold',
+                        transition: 'background-color 0.3s'
+                    }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = '#67ae6e'}
+                        onMouseOut={(e) => e.target.style.backgroundColor = '#328e6e'}
+                    >
+                        Login
+                    </button>
+                    <div style={{ marginTop: '15px', fontSize: '13px', textAlign: 'center' }}>
+                        Don't have an account?{' '}
+                        <Link to="/signup" style={{ color: '#183B4E', textDecoration: 'underline' }}>
+                            Signup
+                        </Link>
                     </div>
                 </form>
                 <ToastContainer />
