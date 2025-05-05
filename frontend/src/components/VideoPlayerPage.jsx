@@ -14,7 +14,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from 'axios';
 
 const VideoPlayerPage = () => {
-  const { id } = useParams();  // Video ID from URL
+  const { id } = useParams();
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,7 +52,6 @@ const VideoPlayerPage = () => {
     setVideoError(false);
   };
 
-  // Retry loading the video by resetting the source
   const retryVideoLoad = () => {
     if (videoRef.current) {
       const videoElement = videoRef.current;
@@ -64,48 +63,63 @@ const VideoPlayerPage = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <CircularProgress />
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh" sx={{ backgroundColor: '#F5ECD5' }}>
+        <CircularProgress sx={{ color: '#626F47' }} />
       </Box>
     );
   }
 
   if (error) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh" flexDirection="column">
-        <Typography variant="h6" color="error" gutterBottom>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        flexDirection="column"
+        sx={{ backgroundColor: '#F5ECD5' }}
+      >
+        <Typography variant="h6" sx={{ color: '#F0BB78', fontWeight: 'bold' }} gutterBottom>
           {error}
         </Typography>
-        <Typography variant="body1" gutterBottom>
+        <Typography variant="body1" color="text.secondary" gutterBottom>
           Please try again later or contact support.
         </Typography>
         <IconButton 
-          color="primary" 
           onClick={handleBack}
-          sx={{ mt: 2 }}
+          sx={{
+            mt: 2,
+            color: '#F5ECD5',
+            backgroundColor: '#626F47',
+            '&:hover': { backgroundColor: '#A4B465' }
+          }}
         >
-          <ArrowBackIcon /> Back to Home
+          <ArrowBackIcon /> 
         </IconButton>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ backgroundColor: '#f9f9f9', minHeight: '100vh', pb: 6 }}>
+    <Box sx={{ backgroundColor: '#F5ECD5', minHeight: '100vh', pb: 6 }}>
       <Container maxWidth="xl" sx={{ pt: 2 }}>
         <IconButton 
-          color="primary" 
           onClick={handleBack}
-          sx={{ mb: 2 }}
+          sx={{
+            mb: 2,
+            color: '#F5ECD5',
+            backgroundColor: '#626F47',
+            '&:hover': { backgroundColor: '#A4B465' }
+          }}
         >
-          <ArrowBackIcon /> Back
+          <ArrowBackIcon /> 
         </IconButton>
-        
-        <Paper elevation={3} sx={{ borderRadius: '8px', overflow: 'hidden', mb: 3 }}>
+
+        <Paper elevation={3} sx={{ borderRadius: '8px', overflow: 'hidden', mb: 3, backgroundColor: '#ffffff' }}>
           {videoError && (
             <Alert 
-              severity="error" 
-              sx={{ mb: 0 }}
+              severity="error"
+              sx={{ mb: 0, backgroundColor: '#F0BB78', color: '#ffffff' }}
               action={
                 <IconButton color="inherit" size="small" onClick={retryVideoLoad}>
                   Retry
@@ -128,13 +142,13 @@ const VideoPlayerPage = () => {
             />
           </Box>
         </Paper>
-        
-        <Typography variant="h5" fontWeight="bold" mb={2}>
+
+        <Typography variant="h5" fontWeight="bold" mb={2} sx={{ color: '#626F47' }}>
           {video.title}
         </Typography>
-        
-        <Divider sx={{ mb: 2 }} />
-        
+
+        <Divider sx={{ mb: 2, borderColor: '#A4B465' }} />
+
         {video.description && (
           <Typography variant="body1" color="text.secondary" paragraph>
             {video.description}

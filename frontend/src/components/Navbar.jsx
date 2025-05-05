@@ -113,7 +113,7 @@ export default function Navbar() {
               component="div"
               sx={{ color: themeColors.text, display: { xs: 'none', sm: 'block' } }}
             >
-              <BitFLix></BitFLix>
+              BitFlix
             </Typography>
           </Box>
 
