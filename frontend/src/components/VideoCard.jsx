@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom';
 const VideoCard = ({ video }) => {
   const navigate = useNavigate();
 
-  const getThumbnail = () => {
-    return video.thumbnail || '/api/placeholder/480/270';
-  };
+const getThumbnail = () => {
+  console.log(video.thumbnail);
+  return video.thumbnail
+    ? `http://localhost:5500/thumbnails/${video.thumbnail}`
+    : '/api/placeholder/480/270'; // fallback
+};
+
 
   return (
     <Card

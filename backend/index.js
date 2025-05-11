@@ -33,6 +33,7 @@ mongoose.connect(process.env.MONGO_CONN, {
 
 // JSON body parser
 app.use(express.json());
+app.use('/thumbnails', express.static(path.join(__dirname, 'thumbnail')));
 
 // Basic health check
 app.get('/', (req, res) => {
